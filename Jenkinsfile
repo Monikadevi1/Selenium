@@ -4,20 +4,21 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git url: 'https://github.com/Monikadevi1/GuviHackathonProject.git'
+                git branch: 'main',
+                    url: 'https://github.com/Monikadevi1/GuviHackathonProject.git'
             }
         }
 
         stage('Run Tests') {
             steps {
-                sh 'mvn clean test'
+                bat 'mvn clean test'
             }
         }
     }
 
     post {
         always {
-            publishTestNGResults testResultsPattern: '**/test-output/testng-results.xml'
+            junit 'target/surefire-reports/*.xml'
         }
     }
 }
